@@ -7,13 +7,13 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use PDO;
+// use PDO;
 
 class UserController extends Controller
 {
     public function getuser()
     {
-        $getuser = User::all();
+        $getuser = User::get();
         return response($getuser);
     }
 
@@ -28,7 +28,7 @@ class UserController extends Controller
         $validasi = Validator::make($req->all(), [
             'name' => 'required',
             'email' => 'required',
-            'password' => 'required|confirmed',
+            'password' => 'required',
             'level' => 'required',
         ]);
 

@@ -27,7 +27,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 // Route::post('/login',[AuthController::class,'login']);
 
-Route::group(['middleware' => ['jwt.verify']], function () {
+// Route::group(['middleware' => ['jwt.verify']], function () {
 
     //USER
     Route::get('/getuser', [UserController::class, 'getuser']);
@@ -50,4 +50,4 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::put('/updatetransaksi/{id}', [TransaksiController::class, 'updatetransaksi']);
     Route::delete('/deletetransaksi/{id}', [TransaksiController::class, 'deletetransaksi']);
 
-});
+// });
