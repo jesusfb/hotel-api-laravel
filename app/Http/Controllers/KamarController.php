@@ -21,38 +21,21 @@ class KamarController extends Controller
     }
     public function createkamar(Request $req)
     {
-        $validator = Validator::make($req->all(), [
-            'nomor_kamar' => 'min:3|required',
-            'type_kamar' => 'required',
-            'foto' => 'required|image',
-            'status_kamar' => 'required',
-            'deskripsi' => 'required',
-            'harga' => 'required',
-        ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->tojson());
-        }
-
-        $file_name = time().'.'.$req->file->extension();
-        $req->file->storeAs('public/images',$file_name);
-
-        // $kamar = new Kamar();
-        // $kamar -> nomor_kamar = $req->nomor_kamar;
-        // $kamar -> type_kamar = $req->type_kamar;
-        // $kamar -> foto = $req->$file_name;
-        // $kamar -> status_kamar = $req->status_kamar;
-        // $kamar -> deskripsi = $req->deskripsi;
-        // $kamar -> harga = $req->harga;
+        // $foto = $req->input('file');
+        // $nama_file = $foto->getClientOriginalName();
+        // $foto->move('public/images/' . $nama_file);
 
         $createkamar = kamar::create([
             'nomor_kamar' => $req->input('nomor_kamar'),
             'type_kamar' => $req->input('type_kamar'),
             'deskripsi' => $req->input('deskripsi'),
-            'foto' => $file_name,
+            'foto' => $req->input('foto'),
             'harga' => $req->input('harga'),
             'nomor_kamar' => $req->input('nomor_kamar'),
+            
         ]);
+
 
         if ($createkamar) {
             return response()->json(['message' => 'Berhasil tambah kamar' , 'hasil' => $createkamar]);
