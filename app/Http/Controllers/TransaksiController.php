@@ -70,6 +70,7 @@ class TransaksiController extends Controller
     {
         $update = transaksi::where('id_transaksi',$id)->update([
             'nama_tamu' => $r->input('nama_tamu'),
+            
             'email' => $r->input('email'),
             'tgl_pesan' => $r->input('tgl_pesan'),
             'check_in' => $r->input('check_in'),

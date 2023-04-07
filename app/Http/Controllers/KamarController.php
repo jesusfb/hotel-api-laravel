@@ -27,7 +27,7 @@ class KamarController extends Controller
         // $foto->move('public/images/' . $nama_file);
 
         $createkamar = kamar::create([
-            'nomor_kamar' => $req->input('nomor_kamar'),
+            // 'nomor_kamar' => $req->input('nomor_kamar'),
             'type_kamar' => $req->input('type_kamar'),
             'deskripsi' => $req->input('deskripsi'),
             'max' => $req->input('max'),
@@ -47,7 +47,7 @@ class KamarController extends Controller
     public function updatekamar(Request $req, $id)
     {
         $validator = Validator::make($req -> all(),[
-            'nomor_kamar' => 'required',
+            // 'nomor_kamar' => 'required',
             // 'type_kamar' => 'required',
         ]);
 
@@ -56,7 +56,7 @@ class KamarController extends Controller
         }
 
         $update = kamar::where('id_kamar',$id)->update([
-            'nomor_kamar' => $req->input('nomor_kamar'),
+            // 'nomor_kamar' => $req->input('nomor_kamar'),
             'type_kamar' => $req->input('type_kamar'),
             'deskripsi' => $req->input('deskripsi'),
             'max' => $req->input('max'),

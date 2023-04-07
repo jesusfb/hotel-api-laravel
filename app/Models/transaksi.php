@@ -10,5 +10,5 @@ class transaksi extends Model
     use HasFactory;
     protected $table = 'transaksis';
     protected $primarykey = 'id_transaksi';
-    protected $fillable = ['nama_tamu','email','tgl_pesan','check_in','check_out','id_kamar','id_fasilitas','jumlah_kamar','harga','jumlah','status','created_at','updated_at'];
+    protected $fillable = ['nama_tamu','no_kamar','email','tgl_pesan','check_in','check_out','id_kamar','id_fasilitas','jumlah_kamar','harga','jumlah','status','created_at','updated_at'];
 }
