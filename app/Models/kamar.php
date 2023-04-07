@@ -10,5 +10,5 @@ class kamar extends Model
     use HasFactory;
     protected $table = 'kamars';
     protected $primarykey = 'id_kamar';
-    protected $fillable = ['nomor_kamar', 'type_kamar', 'foto', 'status_kamar', 'deskripsi', 'harga', 'created_at', 'updated_at'];
+    protected $fillable = ['nomor_kamar', 'type_kamar','max', 'foto', 'status_kamar', 'deskripsi', 'harga', 'created_at', 'updated_at'];
 }
