@@ -16,7 +16,7 @@ class TransaksiController extends Controller
     }
     public function pilihtransaksi($id)
     {
-        $transaksi = transaksi::where('id_transaksi',$id)->get();
+        $transaksi = transaksi::where('nama_tamu',$id)->join('kamars','kamars.id_kamar','=','transaksis.id_kamar')->first();
         return response()->json($transaksi);
     }
     public function createtransaksi(Request $req)                   
@@ -26,8 +26,8 @@ class TransaksiController extends Controller
             // 'nama_tamu' => 'required',
             'nama_tamu' => 'required',
             'email' => 'required',
-            'check_in' => 'required',
-            'check_out' => 'required',
+            'checkin' => 'required',
+            'checkout' => 'required',
             // 'tgl_pesan' => 'required',
             'id_kamar' => 'required',
             'jumlah_kamar' => 'required',
@@ -40,26 +40,30 @@ class TransaksiController extends Controller
         }
 
         $tgl_pesan = Carbon::now();
-        $id_kamar = $req->input('id_kamar');
-        $jumlah = $req->input('jumlah_kamar');
-        $kamar = kamar::where('id_kamar',$id_kamar)->first();
-        $get_harga = $kamar -> harga; 
-        $total_harga = $get_harga * $jumlah;
+        // $id_kamar = $req->input('id_kamar');
+        // $jumlah = $req->input('jumlah_kamar');
+        // $kamar = kamar::where('id_kamar',$id_kamar)->first();
+        // $get_harga = $kamar -> harga; 
+        // $total_harga = $get_harga * $jumlah;
 
         $createtransaksi = transaksi::create([
             'nama_tamu' => $req->input('nama_tamu'),
             'email' => $req->input('email'),
             'tgl_pesan' => $tgl_pesan,
-            'check_in' => $req->input('check_in'),
-            'check_out' => $req->input('check_out'),
-            'id_kamar' => $id_kamar,
-            'id_fasilitas' => $req->input('id_fasilitas'),
-            'jumlah_kamar' => $jumlah,
-            'harga' => $total_harga,
+            'check_in' => $req->input('checkin'),
+            'check_out' => $req->input('checkout'),
+            'id_kamar' => $req->input('id_kamar'),
+            'id_fasilitas' => null,
+            'jumlah_kamar' => $req->input('jumlah_kamar'),
+            'total_harga' => $req->input('harga'),    
             'status' => 'dipesan',
         ]);
 
-        if($createtransaksi){
+        $updatestatuskamar = kamar::where('id_kamar','=',$req->input('id_kamar'))->update([
+            'status_kamar' => 'dipesan'
+        ]);
+
+        if($createtransaksi && $updatestatuskamar){
             return response()->json(['Message' => 'Sukses tambah transaksi']);
         } else {
             return response()->json(['Message' => 'Gagal tambah transaksi']);
@@ -78,7 +82,7 @@ class TransaksiController extends Controller
             'id_kamar' => $r->input('id_kamar'),
             'id_fasilitas' => $r->input('id_fasilitas'),
             'jumlah_kamar' => $r->input('jumlah_kamar'),
-            'harga' => $r->input('harga'),
+            'total_harga' => $r->input('harga'),
             'status' => $r->input('status'),
         ]);
 
