@@ -30,6 +30,11 @@ class TransaksiController extends Controller
         $transaksi = transaksi::where('status', 'dipesan')->get();
         return response()->json($transaksi);
     }
+    public function confirmed()
+    {
+        $transaksi = transaksi::where('status','dikonfirmasi')->get();
+        return response()->json($transaksi);
+    }
     public function ongoing()
     {
         $transaksi = transaksi::where('status', 'dipakai')->get();
@@ -121,5 +126,16 @@ class TransaksiController extends Controller
         } else {
             return response()->json('Gagal menghapus data');
         }
+    }
+    public function konfirmasi(Request $req, $id)
+    {
+            $transaksi = transaksi::where('id_transaksi',$id)->update([
+                'no_kamar' => $req->input('no_kamar'),
+                'status' => 'dikonfirmasi'
+            ]);
+
+            return response()->json([
+                'Message' => 'Berhasil Konfirmasi'
+            ]);
     }
 }

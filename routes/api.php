@@ -49,9 +49,11 @@ Route::post('/register', [AuthController::class, 'register']);
     Route::get('/gettransaksibyid/{id}', [TransaksiController::class, 'pilihtransaksibyid']);
     Route::post('/createtransaksi', [TransaksiController::class, 'createtransaksi']);
     Route::put('/updatetransaksi/{id}', [TransaksiController::class, 'updatetransaksi']);
+    Route::put('/konfirmasi/{id}', [TransaksiController::class, 'konfirmasi']);
     Route::delete('/deletetransaksi/{id}', [TransaksiController::class, 'deletetransaksi']);
     // RESEPSIONIS
     Route::get('/notconfirmed',[TransaksiController::class,'notconfirmed']);
+    Route::get('/confirmed',[TransaksiController::class,'confirmed']);
     Route::get('/ongoing',[TransaksiController::class,'ongoing']);
     Route::get('/dibersihkan',[TransaksiController::class,'dibersihkan']);
 
