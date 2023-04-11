@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\transaksi;
 use App\Models\kamar;
 use Illuminate\Http\Request;
@@ -16,13 +17,33 @@ class TransaksiController extends Controller
     }
     public function pilihtransaksi($id)
     {
-        $transaksi = transaksi::where('nama_tamu',$id)->join('kamars','kamars.id_kamar','=','transaksis.id_kamar')->first();
+        $transaksi = transaksi::where('nama_tamu', $id)->join('kamars', 'kamars.id_kamar', '=', 'transaksis.id_kamar')->first();
         return response()->json($transaksi);
     }
-    public function createtransaksi(Request $req)                   
+    public function pilihtransaksibyid($id)
+    {
+        $transaksi = transaksi::where('id_transaksi', $id)->join('kamars', 'kamars.id_kamar', '=', 'transaksis.id_kamar')->first();
+        return response()->json($transaksi);
+    }
+    public function notconfirmed()
+    {
+        $transaksi = transaksi::where('status', 'dipesan')->get();
+        return response()->json($transaksi);
+    }
+    public function ongoing()
+    {
+        $transaksi = transaksi::where('status', 'dipakai')->get();
+        return response()->json($transaksi);
+    }
+    public function dibersihkan()
+    {
+        $transaksi = transaksi::where('status', 'dibersihkan')->get();
+        return response()->json($transaksi);
+    }
+    public function createtransaksi(Request $req)
     {
 
-        $validator = Validator::make($req -> all(),[
+        $validator = Validator::make($req->all(), [
             // 'nama_tamu' => 'required',
             'nama_tamu' => 'required',
             'email' => 'required',
@@ -35,8 +56,8 @@ class TransaksiController extends Controller
             // 'status' => 'required',
         ]);
 
-        if($validator -> fails()){
-            return response()->json($validator -> errors() -> tojson());
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->tojson());
         }
 
         $tgl_pesan = Carbon::now();
@@ -55,26 +76,26 @@ class TransaksiController extends Controller
             'id_kamar' => $req->input('id_kamar'),
             'id_fasilitas' => null,
             'jumlah_kamar' => $req->input('jumlah_kamar'),
-            'total_harga' => $req->input('harga'),    
+            'total_harga' => $req->input('harga'),
             'status' => 'dipesan',
         ]);
 
-        $updatestatuskamar = kamar::where('id_kamar','=',$req->input('id_kamar'))->update([
+        $updatestatuskamar = kamar::where('id_kamar', '=', $req->input('id_kamar'))->update([
             'status_kamar' => 'dipesan'
         ]);
 
-        if($createtransaksi && $updatestatuskamar){
+        if ($createtransaksi && $updatestatuskamar) {
             return response()->json(['Message' => 'Sukses tambah transaksi']);
         } else {
             return response()->json(['Message' => 'Gagal tambah transaksi']);
         }
     }
 
-    public function updatetransaksi(Request $r, $id)      
+    public function updatetransaksi(Request $r, $id)
     {
-        $update = transaksi::where('id_transaksi',$id)->update([
+        $update = transaksi::where('id_transaksi', $id)->update([
             'nama_tamu' => $r->input('nama_tamu'),
-            
+
             'email' => $r->input('email'),
             'tgl_pesan' => $r->input('tgl_pesan'),
             'check_in' => $r->input('check_in'),
@@ -86,7 +107,7 @@ class TransaksiController extends Controller
             'status' => $r->input('status'),
         ]);
 
-        if($update){
+        if ($update) {
             return response()->json(['Message' => 'Sukses update transaksi']);
         } else {
             return response()->json(['Message' => 'Gagal update transaksi']);
@@ -94,8 +115,8 @@ class TransaksiController extends Controller
     }
     public function deletetransaksi($id)
     {
-        $delete = transaksi::where('id_transaksi',$id)->delete();
-        if($delete){
+        $delete = transaksi::where('id_transaksi', $id)->delete();
+        if ($delete) {
             return response()->json('Berhasil menghapus data');
         } else {
             return response()->json('Gagal menghapus data');
