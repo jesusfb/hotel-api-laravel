@@ -57,6 +57,9 @@ class Kernel extends HttpKernel
 
         'jwt.verify' => \App\Http\Middleware\JwtMiddleware::class,
 
+        'api.admin' => \App\Http\Middleware\Admin::class,
+        'api.resepsionis' => \App\Http\Middleware\resepsionis::class,
+
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,

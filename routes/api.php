@@ -29,6 +29,14 @@ Route::post('/register', [AuthController::class, 'register']);
 
 // Route::group(['middleware' => ['jwt.verify']], function () {
 
+    Route::group(['middleware' => ['api.admin']], function(){
+
+    });
+
+    Route::group(['middleware' => ['api.resepsionis']], function(){
+        
+    });
+
     //USER
     Route::get('/getuser', [UserController::class, 'getuser']);
     Route::get('/getuser/{id}', [UserController::class, 'getsatuuser']);
