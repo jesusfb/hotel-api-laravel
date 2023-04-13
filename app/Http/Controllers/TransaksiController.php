@@ -130,12 +130,24 @@ class TransaksiController extends Controller
     public function konfirmasi(Request $req, $id)
     {
             $transaksi = transaksi::where('id_transaksi',$id)->update([
-                'no_kamar' => $req->input('no_kamar'),
+                // 'no_kamar' => $req->input('no_kamar'),
                 'status' => 'dikonfirmasi'
             ]);
 
             return response()->json([
                 'Message' => 'Berhasil Konfirmasi'
             ]);
+    }
+    public function checkin(Request $req, $id)
+    {
+        $update = transaksi::where('id_transaksi',$id)->update([
+            'no_kamar' => $req->input('no_kamar'),
+            'status' => 'dipakai'
+        ]);
+
+        return response()->json([
+            'Message' => 'Sukses Check-In',
+            'Result' => $update
+        ]);
     }
 }
