@@ -47,7 +47,7 @@ class TransaksiController extends Controller
     }
     public function history()
     {
-        $history = transaksi::where('status','selesai')->get();
+        $history = transaksi::where('status','selesai')->orderBy('id_transaksi','desc')->get();
         return response()->json($history);
     }
     public function createtransaksi(Request $req)

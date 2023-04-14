@@ -81,4 +81,20 @@ class KamarController extends Controller
                 return response()->json(['Message' => 'Gagal delete kamar']);
             }
     }
+
+    public function uploadFoto(Request $req, $id)
+    {
+        $imageName = time().'.'.$req->foto->extension();
+
+        $req->foto->move(public_path('images'), $imageName);
+
+        $update = kamar::where('id_kamar' , $id)->update([
+            'foto' => $imageName
+        ]);
+
+        return response()->json([
+            'Message' => 'Sukses upload foto',
+            'result' => $update
+        ]);
+    }
 }

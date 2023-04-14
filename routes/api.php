@@ -44,12 +44,14 @@ Route::post('/register', [AuthController::class, 'register']);
     Route::put('/updateuser/{id}', [UserController::class, 'updateuser']);
     Route::delete('/deleteuser/{id}', [UserController::class, 'deleteuser']);
 
-    //KELAS
+    //KAMAR
     Route::get('/getkamar', [KamarController::class, 'getkamar']);
     Route::get('/getkamar/{id}', [KamarController::class, 'kamarbyid']);
     Route::post('/createkamar', [KamarController::class, 'createkamar']);
     Route::put('/updatekamar/{id}', [KamarController::class, 'updatekamar']);
     Route::delete('/deletekamar/{id}', [KamarController::class, 'deletekamar']);
+
+    Route::post('/uploadFoto/{id}',[KamarController::class,'uploadFoto']);
 
     //TRANSAKSI
     Route::get('/gettransaksi', [TransaksiController::class, 'gettransaksi']);
