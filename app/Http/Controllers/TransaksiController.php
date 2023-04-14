@@ -32,7 +32,7 @@ class TransaksiController extends Controller
     }
     public function confirmed()
     {
-        $transaksi = transaksi::where('status','dikonfirmasi')->get();
+        $transaksi = transaksi::where('status', 'dikonfirmasi')->get();
         return response()->json($transaksi);
     }
     public function ongoing()
@@ -44,6 +44,11 @@ class TransaksiController extends Controller
     {
         $transaksi = transaksi::where('status', 'dibersihkan')->get();
         return response()->json($transaksi);
+    }
+    public function history()
+    {
+        $history = transaksi::where('status','selesai')->get();
+        return response()->json($history);
     }
     public function createtransaksi(Request $req)
     {
@@ -129,18 +134,18 @@ class TransaksiController extends Controller
     }
     public function konfirmasi(Request $req, $id)
     {
-            $transaksi = transaksi::where('id_transaksi',$id)->update([
-                // 'no_kamar' => $req->input('no_kamar'),
-                'status' => 'dikonfirmasi'
-            ]);
+        $transaksi = transaksi::where('id_transaksi', $id)->update([
+            // 'no_kamar' => $req->input('no_kamar'),
+            'status' => 'dikonfirmasi'
+        ]);
 
-            return response()->json([
-                'Message' => 'Berhasil Konfirmasi'
-            ]);
+        return response()->json([
+            'Message' => 'Berhasil Konfirmasi'
+        ]);
     }
     public function checkin(Request $req, $id)
     {
-        $update = transaksi::where('id_transaksi',$id)->update([
+        $update = transaksi::where('id_transaksi', $id)->update([
             'no_kamar' => $req->input('no_kamar'),
             'status' => 'dipakai'
         ]);
@@ -148,6 +153,38 @@ class TransaksiController extends Controller
         return response()->json([
             'Message' => 'Sukses Check-In',
             'Result' => $update
+        ]);
+    }
+    public function checkout($id, $id_kamar)
+    {
+        $checkout = transaksi::where('id_transaksi', $id)->update([
+            'status' => 'dibersihkan'
+        ]);
+
+        $kamar = kamar::where('id_kamar', $id_kamar)->update([
+            'status_kamar' => 'dibersihkan'
+        ]);
+
+        return response()->json([
+            'Message' => 'Sukses Check-Out',
+            'checkout' => $checkout,
+            'kamar' => $kamar,
+        ]);
+    }
+    public function kamardone($id, $id_kamar)
+    {
+        $update = transaksi::where('id_transaksi', $id)->update([
+            'status' => 'selesai'
+        ]);
+
+        $kamar = kamar::where('id_kamar', $id_kamar)->update([
+            'status_kamar' => 'kosong'
+        ]);
+
+        return response()->json([
+            'Message' => 'Sukses selesai booking',
+            'booking' => $update,
+            'kamar' => $kamar
         ]);
     }
 }

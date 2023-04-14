@@ -64,6 +64,9 @@ Route::post('/register', [AuthController::class, 'register']);
     Route::get('/confirmed',[TransaksiController::class,'confirmed']);
     Route::get('/ongoing',[TransaksiController::class,'ongoing']);
     Route::get('/dibersihkan',[TransaksiController::class,'dibersihkan']);
-    Route::put('/checkin/{id}',[TransaksiController::class,'checkin']);
+    Route::get('/history',[TransaksiController::class,'history']);
 
+    Route::put('/checkin/{id}',[TransaksiController::class,'checkin']);
+    Route::put('/checkout/{id}/{id_kamar}',[TransaksiController::class,'checkout']);
+    Route::put('kamar_done/{id}/{id_kamar}',[TransaksiController::class,'kamardone']);
 // });
