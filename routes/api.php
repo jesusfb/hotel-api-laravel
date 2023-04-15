@@ -31,33 +31,9 @@ Route::post('/register', [AuthController::class, 'register']);
 
 Route::group(['middleware' => ['auth.api']], function () {
     Route::group(['middleware' => ['api.admin']], function () {
-        Route::get('/getkamar', [KamarController::class, 'getkamar']);
-        Route::get('/getkamar/{id}', [KamarController::class, 'kamarbyid']);
-        Route::post('/createkamar', [KamarController::class, 'createkamar']);
-        Route::put('/updatekamar/{id}', [KamarController::class, 'updatekamar']);
-        Route::delete('/deletekamar/{id}', [KamarController::class, 'deletekamar']);
-
-        Route::post('/uploadFoto/{id}', [KamarController::class, 'uploadFoto']);
     });
 
     Route::group(['middleware' => ['api.resepsionis']], function () {
-        Route::get('/gettransaksi', [TransaksiController::class, 'gettransaksi']);
-        Route::get('/gettransaksi/{id}', [TransaksiController::class, 'pilihtransaksi']);
-        Route::get('/gettransaksibyid/{id}', [TransaksiController::class, 'pilihtransaksibyid']);
-        Route::post('/createtransaksi', [TransaksiController::class, 'createtransaksi']);
-        Route::put('/updatetransaksi/{id}', [TransaksiController::class, 'updatetransaksi']);
-        Route::put('/konfirmasi/{id}', [TransaksiController::class, 'konfirmasi']);
-        Route::delete('/deletetransaksi/{id}', [TransaksiController::class, 'deletetransaksi']);
-        // RESEPSIONIS
-        Route::get('/notconfirmed', [TransaksiController::class, 'notconfirmed']);
-        Route::get('/confirmed', [TransaksiController::class, 'confirmed']);
-        Route::get('/ongoing', [TransaksiController::class, 'ongoing']);
-        Route::get('/dibersihkan', [TransaksiController::class, 'dibersihkan']);
-        Route::get('/history', [TransaksiController::class, 'history']);
-
-        Route::put('/checkin/{id}', [TransaksiController::class, 'checkin']);
-        Route::put('/checkout/{id}/{id_kamar}', [TransaksiController::class, 'checkout']);
-        Route::put('kamar_done/{id}/{id_kamar}', [TransaksiController::class, 'kamardone']);
     });
 });
 
@@ -69,8 +45,29 @@ Route::put('/updateuser/{id}', [UserController::class, 'updateuser']);
 Route::delete('/deleteuser/{id}', [UserController::class, 'deleteuser']);
 
 //KAMAR
+Route::get('/getkamar', [KamarController::class, 'getkamar']);
+Route::get('/getkamar/{id}', [KamarController::class, 'kamarbyid']);
+Route::post('/createkamar', [KamarController::class, 'createkamar']);
+Route::put('/updatekamar/{id}', [KamarController::class, 'updatekamar']);
+Route::delete('/deletekamar/{id}', [KamarController::class, 'deletekamar']);
 
-
+Route::post('/uploadFoto/{id}', [KamarController::class, 'uploadFoto']);
 //TRANSAKSI
+Route::get('/gettransaksi', [TransaksiController::class, 'gettransaksi']);
+Route::get('/gettransaksi/{id}', [TransaksiController::class, 'pilihtransaksi']);
+Route::get('/gettransaksibyid/{id}', [TransaksiController::class, 'pilihtransaksibyid']);
+Route::post('/createtransaksi', [TransaksiController::class, 'createtransaksi']);
+Route::put('/updatetransaksi/{id}', [TransaksiController::class, 'updatetransaksi']);
+Route::put('/konfirmasi/{id}', [TransaksiController::class, 'konfirmasi']);
+Route::delete('/deletetransaksi/{id}', [TransaksiController::class, 'deletetransaksi']);
+// RESEPSIONIS
+Route::get('/notconfirmed', [TransaksiController::class, 'notconfirmed']);
+Route::get('/confirmed', [TransaksiController::class, 'confirmed']);
+Route::get('/ongoing', [TransaksiController::class, 'ongoing']);
+Route::get('/dibersihkan', [TransaksiController::class, 'dibersihkan']);
+Route::get('/history', [TransaksiController::class, 'history']);
 
+Route::put('/checkin/{id}', [TransaksiController::class, 'checkin']);
+Route::put('/checkout/{id}/{id_kamar}', [TransaksiController::class, 'checkout']);
+Route::put('kamar_done/{id}/{id_kamar}', [TransaksiController::class, 'kamardone']);
 // });
