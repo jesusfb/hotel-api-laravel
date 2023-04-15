@@ -84,6 +84,7 @@ class KamarController extends Controller
 
     public function uploadFoto(Request $req, $id)
     {
+        // Untuk menghindari nama yang sama
         $imageName = time().'.'.$req->foto->extension();
 
         $req->foto->move(public_path('images'), $imageName);
