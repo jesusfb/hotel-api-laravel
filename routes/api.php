@@ -60,6 +60,7 @@ Route::post('/createtransaksi', [TransaksiController::class, 'createtransaksi'])
 Route::put('/updatetransaksi/{id}', [TransaksiController::class, 'updatetransaksi']);
 Route::put('/konfirmasi/{id}', [TransaksiController::class, 'konfirmasi']);
 Route::delete('/deletetransaksi/{id}', [TransaksiController::class, 'deletetransaksi']);
+Route::delete('/deletetransaksi', [TransaksiController::class, 'deletealltransaksi']);
 // RESEPSIONIS
 Route::get('/notconfirmed', [TransaksiController::class, 'notconfirmed']);
 Route::get('/confirmed', [TransaksiController::class, 'confirmed']);

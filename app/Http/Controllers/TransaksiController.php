@@ -7,6 +7,7 @@ use App\Models\kamar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class TransaksiController extends Controller
 {
@@ -131,6 +132,12 @@ class TransaksiController extends Controller
         } else {
             return response()->json('Gagal menghapus data');
         }
+    }
+    public function deletealltransaksi()
+    {
+        $delete = transaksi::truncate();
+        // $delete = DB::table('transaksis')->delete();
+        return response()->json(['message' => 'Sukses reset history']);
     }
     public function konfirmasi(Request $req, $id)
     {
