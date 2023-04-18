@@ -135,8 +135,8 @@ class TransaksiController extends Controller
     }
     public function deletealltransaksi()
     {
-        $delete = transaksi::truncate();
-        // $delete = DB::table('transaksis')->delete();
+        // $delete = transaksi::truncate();
+        $delete = DB::table('transaksis')->delete();
         return response()->json(['message' => 'Sukses reset history']);
     }
     public function konfirmasi(Request $req, $id)
