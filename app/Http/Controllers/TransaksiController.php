@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\transaksi;
 use App\Models\kamar;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
@@ -48,7 +49,7 @@ class TransaksiController extends Controller
     }
     public function history()
     {
-        $history = transaksi::where('status','selesai')->orderBy('id_transaksi','desc')->get();
+        $history = transaksi::where('status', 'selesai')->orderBy('id_transaksi', 'desc')->get();
         return response()->json($history);
     }
     public function createtransaksi(Request $req)
@@ -152,6 +153,14 @@ class TransaksiController extends Controller
     }
     public function checkin(Request $req, $id)
     {
+        $validator = Validator::make($req->all(), [
+            'no_kamar' => 'required|unique:transaksis,no_kamar,' . $id . ',id_transaksi'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->tojson(), 422);
+        }
+
         $update = transaksi::where('id_transaksi', $id)->update([
             'no_kamar' => $req->input('no_kamar'),
             'status' => 'dipakai'
