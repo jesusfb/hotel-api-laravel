@@ -29,8 +29,13 @@ Route::post('/register', [AuthController::class, 'register']);
 
 // Route::group(['middleware' => ['jwt.verify']], function () {
 
-Route::group(['middleware' => ['auth.api']], function () {
+Route::group(['middleware' => ['jwt.verify']], function () {
+
     Route::group(['middleware' => ['api.admin']], function () {
+        Route::get('/getuser', [UserController::class, 'getuser']);
+        Route::post('/createuser', [UserController::class, 'createuser']);
+        Route::get('/getuser/{id}', [UserController::class, 'getsatuuser']);
+        Route::put('/updateuser/{id}', [UserController::class, 'updateuser']);
     });
 
     Route::group(['middleware' => ['api.resepsionis']], function () {
@@ -38,10 +43,8 @@ Route::group(['middleware' => ['auth.api']], function () {
 });
 
 //USER
-Route::get('/getuser', [UserController::class, 'getuser']);
-Route::get('/getuser/{id}', [UserController::class, 'getsatuuser']);
-Route::post('/createuser', [UserController::class, 'createuser']);
-Route::put('/updateuser/{id}', [UserController::class, 'updateuser']);
+
+
 Route::delete('/deleteuser/{id}', [UserController::class, 'deleteuser']);
 
 //KAMAR
@@ -68,7 +71,7 @@ Route::get('/ongoing', [TransaksiController::class, 'ongoing']);
 Route::get('/dibersihkan', [TransaksiController::class, 'dibersihkan']);
 Route::get('/history', [TransaksiController::class, 'history']);
 
-Route::get('/cekbooking',[TransaksiController::class,'cekbooking']);
+Route::get('/cekbooking', [TransaksiController::class, 'cekbooking']);
 
 Route::put('/checkin/{id}', [TransaksiController::class, 'checkin']);
 Route::put('/checkout/{id}/{id_kamar}', [TransaksiController::class, 'checkout']);
