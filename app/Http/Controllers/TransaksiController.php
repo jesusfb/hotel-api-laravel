@@ -7,8 +7,12 @@ use App\Models\kamar;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EmailNotification;
 
 class TransaksiController extends Controller
 {
@@ -78,8 +82,10 @@ class TransaksiController extends Controller
         // $kamar = kamar::where('id_kamar',$id_kamar)->first();
         // $get_harga = $kamar -> harga; 
         // $total_harga = $get_harga * $jumlah;
+        $kode = Str::random(5);
 
         $createtransaksi = transaksi::create([
+            'id_transaksi' => $kode,
             'nama_tamu' => $req->input('nama_tamu'),
             'email' => $req->input('email'),
             'tgl_pesan' => $tgl_pesan,
@@ -92,9 +98,25 @@ class TransaksiController extends Controller
             'status' => 'dipesan',
         ]);
 
+
         $updatestatuskamar = kamar::where('id_kamar', '=', $req->input('id_kamar'))->update([
             'status_kamar' => 'dipesan'
         ]);
+
+        $id_transaksi = $kode;
+        $nama_tamu = $req->input('nama_tamu');
+        $tanggal_checkin = $req->input('checkin');
+        $tanggal_checkout = $req->input('checkout');
+        $jumlah_kamar = $req->input('jumlah_kamar');
+        $harga = $req->input('harga');
+
+        // Butuh 6 parameter cuy sesuai sama yang ada di file EmailNotification oke
+        $send_email = new EmailNotification( $nama_tamu, $id_transaksi, $tanggal_checkin, $tanggal_checkout, $jumlah_kamar, $harga);
+        Mail::to($req->input('email'))->send($send_email);
+
+        if($send_email) {
+            return response()->json(['message' => 'berhasil kirim email']);
+        }
 
         if ($createtransaksi && $updatestatuskamar) {
             return response()->json(['Message' => 'Sukses tambah transaksi']);
