@@ -13,12 +13,43 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EmailNotification;
+use App\Mail\emailConfirmation;
 
 class TransaksiController extends Controller
 {
     public function gettransaksi()
     {
         $transaksi = transaksi::get();
+        return response()->json($transaksi);
+    }
+    public function cekbooking($id)
+    {
+        // $transaksi = transaksi::where('id_transaksi', $id)
+        //     ->whereIn('status', ['dipesan' , 'dikonfirmasi'])
+        //     pengganti operator || 
+        //     ->get();
+
+        $cek_status = transaksi::where('id_transaksi', $id)
+            ->where('status', '!=', 'dikonfirmasi')
+            ->select('status')->first();
+        if ($cek_status) {
+            return response()->json([
+                'msg' => 'Pesanan belum di konfirmasi',
+                'kode' => 'dikonfirmasi'
+            ], 410);
+        }
+
+        $transaksi = transaksi::where('id_transaksi', $id)
+            ->where('status', 'dikonfirmasi')
+            ->get();
+
+        $cek = transaksi::where('id_transaksi', $id)
+            ->where('status', 'dikonfirmasi')
+            ->count('id_transaksi');
+
+        if ($cek == 0) {
+            return response()->json(['msg' => 'Data Not Found'], 404);
+        }
         return response()->json($transaksi);
     }
     public function pilihtransaksi($id)
@@ -98,10 +129,18 @@ class TransaksiController extends Controller
             'status' => 'dipesan',
         ]);
 
+        $kamar = DB::table('kamars')->where('id_kamar', $req->input('id_kamar'))->select('total_pesan')->first();
+        $get = $kamar->total_pesan;
+        $itung = $get + $req->input('jumlah_kamar');
 
         $updatestatuskamar = kamar::where('id_kamar', '=', $req->input('id_kamar'))->update([
-            'status_kamar' => 'dipesan'
+            'status_kamar' => 'dipesan',
+            'total_pesan' => $itung
         ]);
+
+        if (!$updatestatuskamar) {
+            return response()->json(['message' => 'Failed update kamars', 'reason' => 'kamar'], 500);
+        }
 
         $id_transaksi = $kode;
         $nama_tamu = $req->input('nama_tamu');
@@ -111,10 +150,10 @@ class TransaksiController extends Controller
         $harga = $req->input('harga');
 
         // Butuh 6 parameter cuy sesuai sama yang ada di file EmailNotification oke
-        $send_email = new EmailNotification( $nama_tamu, $id_transaksi, $tanggal_checkin, $tanggal_checkout, $jumlah_kamar, $harga);
+        $send_email = new EmailNotification($nama_tamu, $id_transaksi, $tanggal_checkin, $tanggal_checkout, $jumlah_kamar, $harga);
         Mail::to($req->input('email'))->send($send_email);
 
-        if($send_email) {
+        if ($send_email) {
             return response()->json(['message' => 'berhasil kirim email']);
         }
 
@@ -168,6 +207,16 @@ class TransaksiController extends Controller
             // 'no_kamar' => $req->input('no_kamar'),
             'status' => 'dikonfirmasi'
         ]);
+
+        $id_transaksi = $req->input('id_transaksi');
+        $nama_tamu = $req->input('nama_tamu');
+
+        $email = new emailConfirmation($id_transaksi, $nama_tamu);
+        Mail::to($req->input('email'))->send($email);
+
+        if (!$email) {
+            return response()->json(['msg' => 'Failed send email', 'type' => 'email'], 500);
+        }
 
         return response()->json([
             'Message' => 'Berhasil Konfirmasi'

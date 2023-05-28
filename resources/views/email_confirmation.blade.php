@@ -46,14 +46,9 @@
 
 <body>
     <h1>Wikusama Hotel</h1>
-    <h1>Halo {{ $nama_tamu }}</h1>
-    <h5>Berikut adalah detail dari pesanan Anda:</h5>
-    <p>Kode pesanan Anda: {{ $id_transaksi }}</p>
-    <p>Tanggal Check-in: {{ $tanggal_checkin }}</p>
-    <p>Tanggal Check-out: {{ $tanggal_checkout }}</p>
-    <p>Jumlah Kamar: {{ $jumlah_kamar }}</p>
-    <p>Total Harga: {{ $harga }}</p>
-    <a href="#" class="btn">Konfirmasi</a>
+    <h3>Halo {{ $nama_tamu }}, </h3>
+    <h1 align="center">Pesanan kamu sudah di konfirmasi yaa</h1>
+    <h4 align="center">untuk mengecek kamu bisa pergi ke halaman CHECK BOOKING dan masukkan id kamu yaitu {{ $id_transaksi }}</h4>
 </body>
 
 </html>

@@ -9,40 +9,33 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class EmailNotification extends Mailable
+class emailConfirmation extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $id_transaksi;
     public $nama_tamu;
-    public $tanggal_checkin;
-    public $tanggal_checkout;
-    // public $isi;
-    public $jumlah_kamar;
-    public $harga;
-    // public $total;
+    // public $id_transaksi;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($nama_tamu, $id_transaksi, $tanggal_checkin, $tanggal_checkout, $jumlah_kamar, $harga)
-    {   
-        $this -> nama_tamu = $nama_tamu;
-        $this -> tanggal_checkin = $tanggal_checkin;
-        $this -> tanggal_checkout = $tanggal_checkout;
-        // $this -> isi = $isi;    
-        $this -> jumlah_kamar = $jumlah_kamar;
-        $this -> harga = $harga;
-        // $this -> total = $total;
+
+  
+
+    public function __construct($id_transaksi, $nama_tamu)
+    {
         $this -> id_transaksi = $id_transaksi;
+        $this -> nama_tamu = $nama_tamu;
     }
 
-    public function build(){
-        return $this -> view('email') -> subject('Ngetes email');
+    public function build()
+    {
+        return $this -> view('email_confirmation') -> subject('Confirmation email');
     }
- 
+
     /**
      * Get the message envelope.
      *
@@ -51,7 +44,7 @@ class EmailNotification extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Email Notification',
+            subject: 'Email Confirmation',
         );
     }
 
@@ -63,7 +56,7 @@ class EmailNotification extends Mailable
     public function content()
     {
         return new Content(
-            view: 'email',
+            view: 'email_confirmation',
         );
     }
 

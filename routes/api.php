@@ -57,6 +57,8 @@ Route::delete('/deletekamar/{id}', [KamarController::class, 'deletekamar']);
 Route::post('/uploadFoto/{id}', [KamarController::class, 'uploadFoto']);
 //TRANSAKSI
 Route::get('/gettransaksi', [TransaksiController::class, 'gettransaksi']);
+Route::get('/cekbooking/{id}', [TransaksiController::class, 'cekbooking']);
+
 Route::get('/gettransaksi/{id}', [TransaksiController::class, 'pilihtransaksi']);
 Route::get('/gettransaksibyid/{id}', [TransaksiController::class, 'pilihtransaksibyid']);
 Route::post('/createtransaksi', [TransaksiController::class, 'createtransaksi']);

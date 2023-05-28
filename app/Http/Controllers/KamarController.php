@@ -33,7 +33,7 @@ class KamarController extends Controller
             'max' => $req->input('max'),
             'foto' => $req->input('foto'),
             'harga' => $req->input('harga'),
-            'nomor_kamar' => $req->input('nomor_kamar'),
+            'total_pesan' => 0,
             
         ]);
 
