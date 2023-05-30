@@ -274,4 +274,51 @@ class TransaksiController extends Controller
             'kamar' => $kamar
         ]);
     }
+
+    public function feedback(Request $req)
+    {
+        $check = transaksi::where('id_transaksi', $req->input('id_transaksi'))->first();
+        $check2 = DB::table('transaksis')
+            ->where('id_transaksi', $req->input('id_transaksi'))
+            ->whereNotIn('status', ['dipesan', 'dikonfirmasi'])
+            ->first();
+
+        if (!$check) {
+            return response()->json(['msg' => 'Data Not Found'], 404);
+        } else if (!$check2) {
+            return response()->json(['msg' => 'Failed'], 400);
+        }
+
+        $check3 = DB::table('feedback')->where('id_transaksi', $req->input('id_transaksi'))->count('id_transaksi');
+        if ($check3 === 2) {
+            return response()->json(['msg' => 'You already send 2 feedback'], 406);
+        }
+
+        $send = DB::table('feedback')->insert([
+            'id_transaksi' => $req->input('id_transaksi'),
+            'isi' => $req->input('isi'),
+            'review' => $req->input('review')
+        ]);
+
+        if ($send) {
+            return response()->json(['msg' => 'Success send feedback'], 200);
+        }
+
+        return response()->json(['msg' => 'Failed send feedback'], 500);
+    }
+
+    public function getFeedback()
+    {
+        $get = DB::table('feedback')->get();
+        return response()->json($get);
+    }
+
+    public function selectFeedback($id)
+    {
+        $get = DB::table('transaksis')
+            ->where('id_transaksi', $id)
+            ->get();
+
+        return response()->json($get);
+    }
 }

@@ -33,6 +33,10 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
     Route::group(['middleware' => ['api.admin']], function () {
         Route::get('/getuser', [UserController::class, 'getuser']);
+
+        Route::get('/getFeedback', [TransaksiController::class, 'getFeedback']);
+        Route::get('/selectFeedback/{id}',[TransaksiController::class, 'selectFeedback']);
+
         Route::post('/createuser', [UserController::class, 'createuser']);
         Route::get('/getuser/{id}', [UserController::class, 'getsatuuser']);
         Route::put('/updateuser/{id}', [UserController::class, 'updateuser']);
@@ -43,7 +47,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 });
 
 //USER
-
+Route::post('/feedback',[TransaksiController::class,'feedback']);
 
 Route::delete('/deleteuser/{id}', [UserController::class, 'deleteuser']);
 
