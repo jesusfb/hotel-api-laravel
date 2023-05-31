@@ -36,6 +36,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
         Route::get('/getFeedback', [TransaksiController::class, 'getFeedback']);
         Route::get('/selectFeedback/{id}',[TransaksiController::class, 'selectFeedback']);
+        Route::get('/countFeedback',[TransaksiController::class, 'countFeedback']);
 
         Route::post('/createuser', [UserController::class, 'createuser']);
         Route::get('/getuser/{id}', [UserController::class, 'getsatuuser']);

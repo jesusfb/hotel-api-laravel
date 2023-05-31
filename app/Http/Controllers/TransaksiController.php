@@ -294,10 +294,14 @@ class TransaksiController extends Controller
             return response()->json(['msg' => 'You already send 2 feedback'], 406);
         }
 
+        $getName = DB::table('transaksis')->where('id_transaksi' , $req->input('id_transaksi'))->first();
+        $nama = $getName -> nama_tamu;
+
         $send = DB::table('feedback')->insert([
             'id_transaksi' => $req->input('id_transaksi'),
             'isi' => $req->input('isi'),
-            'review' => $req->input('review')
+            'review' => $req->input('review'),
+            'nama_tamu' => $nama 
         ]);
 
         if ($send) {
@@ -309,7 +313,9 @@ class TransaksiController extends Controller
 
     public function getFeedback()
     {
-        $get = DB::table('feedback')->get();
+        $get = DB::table('feedback')
+        ->orderBy('id_feedback','desc')
+        ->get();
         return response()->json($get);
     }
 
@@ -320,5 +326,10 @@ class TransaksiController extends Controller
             ->get();
 
         return response()->json($get);
+    }
+    public function countFeedback()
+    {
+        $count = DB::table('feedback')->count('id_feedback');
+            return response()->json($count);
     }
 }
