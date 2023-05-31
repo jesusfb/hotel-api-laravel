@@ -43,10 +43,7 @@ class UserController extends Controller
             'level' => $req->input('level'),
         ]);
 
-        return response([
-            'Message' => 'Sukses tambah user',
-            'hasil' => $createuser
-        ]);
+        return response()->json($createuser);
     }
 
     public function updateuser(Request $req, $id)
@@ -69,14 +66,16 @@ class UserController extends Controller
             'level' => $req->input('level')
         ]);
 
-        if ($update) {
-            return response([
-                'Message' => 'Sukses Update user',
-                'hasil' => $update
-            ]);
-        } else {
-            return response()->json(['Message' => 'gagal update user']);
-        }
+        $data = [
+            'id' => $id,
+            'name' => $req->input('name'),
+            'email' => $req->input('email'),
+            'password' => Hash::make($req->input('password')),
+            'level' => $req->input('level')
+        ];
+
+            return response()->json($data);
+        
     }
     public function deleteuser($id)
     {

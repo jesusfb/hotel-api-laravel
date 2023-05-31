@@ -39,7 +39,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
         Route::post('/createuser', [UserController::class, 'createuser']);
         Route::get('/getuser/{id}', [UserController::class, 'getsatuuser']);
-        Route::put('/updateuser/{id}', [UserController::class, 'updateuser']);
+        Route::post('/updateuser/{id}', [UserController::class, 'updateuser']);
     });
 
     Route::group(['middleware' => ['api.resepsionis']], function () {
