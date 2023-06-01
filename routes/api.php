@@ -54,6 +54,7 @@ Route::delete('/deleteuser/{id}', [UserController::class, 'deleteuser']);
 
 //KAMAR
 Route::get('/getkamar', [KamarController::class, 'getkamar']);
+Route::get('/filterKamar/{person}', [KamarController::class, 'filterKamar']);
 Route::get('/getkamar/{id}', [KamarController::class, 'kamarbyid']);
 Route::post('/createkamar', [KamarController::class, 'createkamar']);
 Route::put('/updatekamar/{id}', [KamarController::class, 'updatekamar']);
