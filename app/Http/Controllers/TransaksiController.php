@@ -286,7 +286,7 @@ class TransaksiController extends Controller
         if (!$check) {
             return response()->json(['msg' => 'Data Not Found'], 404);
         } else if (!$check2) {
-            return response()->json(['msg' => 'Failed'], 400);
+            return response()->json(['msg' => 'Not complete'], 400);
         }
 
         $check3 = DB::table('feedback')->where('id_transaksi', $req->input('id_transaksi'))->count('id_transaksi');
