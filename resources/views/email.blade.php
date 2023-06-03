@@ -53,7 +53,7 @@
     <p>Tanggal Check-out: {{ $tanggal_checkout }}</p>
     <p>Jumlah Kamar: {{ $jumlah_kamar }}</p>
     <p>Total Harga: {{ $harga }}</p>
-    <a href="#" class="btn">Konfirmasi</a>
+    <a href="localhost:8080/" class="btn">Konfirmasi</a>
 </body>
 
 </html>
