@@ -35,8 +35,8 @@ Route::group(['middleware' => ['jwt.verify']], function () {
         Route::get('/getuser', [UserController::class, 'getuser']);
 
         Route::get('/getFeedback', [TransaksiController::class, 'getFeedback']);
-        Route::get('/selectFeedback/{id}',[TransaksiController::class, 'selectFeedback']);
-        Route::get('/countFeedback',[TransaksiController::class, 'countFeedback']);
+        Route::get('/selectFeedback/{id}', [TransaksiController::class, 'selectFeedback']);
+        Route::get('/countFeedback', [TransaksiController::class, 'countFeedback']);
 
         Route::post('/createuser', [UserController::class, 'createuser']);
         Route::get('/getuser/{id}', [UserController::class, 'getsatuuser']);
@@ -44,11 +44,13 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     });
 
     Route::group(['middleware' => ['api.resepsionis']], function () {
+        Route::get('/history', [TransaksiController::class, 'history']);
+        Route::get('/notconfirmed', [TransaksiController::class, 'notconfirmed']);
     });
 });
 
 //USER
-Route::post('/feedback',[TransaksiController::class,'feedback']);
+Route::post('/feedback', [TransaksiController::class, 'feedback']);
 
 Route::delete('/deleteuser/{id}', [UserController::class, 'deleteuser']);
 
@@ -65,7 +67,7 @@ Route::post('/uploadFoto/{id}', [KamarController::class, 'uploadFoto']);
 Route::get('/gettransaksi', [TransaksiController::class, 'gettransaksi']);
 Route::get('/cekbooking/{id}', [TransaksiController::class, 'cekbooking']);
 
-Route::get('/gettransaksi/{id}', [TransaksiController::class, 'pilihtransaksi']);
+Route::get('/gettransaksi/{id}', [TransaksiController::class, 'pilihtransaksibynama']);
 Route::get('/gettransaksibyid/{id}', [TransaksiController::class, 'pilihtransaksibyid']);
 Route::post('/createtransaksi', [TransaksiController::class, 'createtransaksi']);
 Route::put('/updatetransaksi/{id}', [TransaksiController::class, 'updatetransaksi']);
@@ -73,11 +75,9 @@ Route::put('/konfirmasi/{id}', [TransaksiController::class, 'konfirmasi']);
 Route::delete('/deletetransaksi/{id}', [TransaksiController::class, 'deletetransaksi']);
 Route::delete('/deletetransaksi', [TransaksiController::class, 'deletealltransaksi']);
 // RESEPSIONIS
-Route::get('/notconfirmed', [TransaksiController::class, 'notconfirmed']);
 Route::get('/confirmed', [TransaksiController::class, 'confirmed']);
 Route::get('/ongoing', [TransaksiController::class, 'ongoing']);
 Route::get('/dibersihkan', [TransaksiController::class, 'dibersihkan']);
-Route::get('/history', [TransaksiController::class, 'history']);
 
 // Route::get('/cekbooking', [TransaksiController::class, 'cekbooking']);
 

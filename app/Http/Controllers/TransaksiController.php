@@ -41,7 +41,8 @@ class TransaksiController extends Controller
 
         $cekStatusLagi = transaksi::where('id_transaksi', $id)
             ->whereIn('status', ['dipakai', 'dibersihkan', 'selesai'])
-            ->get();
+            ->first();
+        // Ternyata ini gk bisa pake get lol
 
         if ($cekStatusLagi) {
             return response()->json(['msg' => 'Expaired'], 500);
@@ -60,7 +61,7 @@ class TransaksiController extends Controller
         }
         return response()->json($transaksi);
     }
-    public function pilihtransaksi($id)
+    public function pilihtransaksibynama($id)
     {
         $transaksi = transaksi::where('nama_tamu', $id)->join('kamars', 'kamars.id_kamar', '=', 'transaksis.id_kamar')->first();
         return response()->json($transaksi);
@@ -78,7 +79,7 @@ class TransaksiController extends Controller
     public function confirmed()
     {
         $transaksi = transaksi::where('status', 'dikonfirmasi')->get();
-        return response()->json($transaksi);
+        return response()->json([$transaksi]);
     }
     public function ongoing()
     {
@@ -93,6 +94,10 @@ class TransaksiController extends Controller
     public function history()
     {
         $history = transaksi::where('status', 'selesai')->orderBy('id_transaksi', 'desc')->get();
+        if ($history->isEmpty()) {
+            return response()->json(['msg' => 'Data is empty'], 404);
+        }
+
         return response()->json($history);
     }
     public function createtransaksi(Request $req)
@@ -223,21 +228,29 @@ class TransaksiController extends Controller
         Mail::to($req->input('email'))->send($email);
 
         if (!$email) {
-            return response()->json(['msg' => 'Failed send email', 'type' => 'email'], 500);
+            return response()->json(['msg' => 'Failed send email', 'type' => 'email'], 412);
         }
 
         return response()->json([
             'Message' => 'Berhasil Konfirmasi'
-        ]);
+        ], 200);
     }
     public function checkin(Request $req, $id)
     {
         $validator = Validator::make($req->all(), [
-            'no_kamar' => 'required|unique:transaksis,no_kamar,' . $id . ',id_transaksi'
+            'no_kamar' => 'required'
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors()->tojson(), 422);
+            return response()->json($validator->errors()->tojson());
+        }
+
+        $roomCheck = transaksi::where('no_kamar', $req->input('no_kamar'))
+            ->whereIn('status', ['dipesan', 'dikonfirmasi', 'dipakai'])
+            ->count('no_kamar');
+
+        if ($roomCheck >= 1) {
+            return response()->json(['msg' => 'The room is already in use!'], 422);
         }
 
         $update = transaksi::where('id_transaksi', $id)->update([
@@ -253,18 +266,24 @@ class TransaksiController extends Controller
     public function checkout($id, $id_kamar)
     {
         $checkout = transaksi::where('id_transaksi', $id)->update([
-            'status' => 'dibersihkan'
+            'status' => 'selesai'
         ]);
 
         $kamar = kamar::where('id_kamar', $id_kamar)->update([
-            'status_kamar' => 'dibersihkan'
+            'status_kamar' => 'kosong'
         ]);
 
-        return response()->json([
-            'Message' => 'Sukses Check-Out',
-            'checkout' => $checkout,
-            'kamar' => $kamar,
-        ]);
+        if (!$checkout) {
+            return response()->json(['msg' => 'Check-Out Failed', 'type' => 'checkout'], 409);
+        }
+
+        if (!$kamar) {
+            return response()->json(['msg' => 'Failed Update Room', 'type' => 'room'], 409);
+        }
+
+        if ($checkout && $kamar) {
+            return response()->json(['msg' => 'Successfull'], 200);
+        }
     }
     public function kamardone($id, $id_kamar)
     {
