@@ -27,13 +27,13 @@ class UserController extends Controller
     {
         $validasi = Validator::make($req->all(), [
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|unique:users',
             'password' => 'required',
             'level' => 'required',
         ]);
 
-        if (!$validasi) {
-            return response()->json($validasi->errors()->tojson());
+        if ($validasi->fails()) {
+            return response()->json($validasi->errors()->tojson(), 422);
         }
 
         $createuser = User::create([
@@ -74,13 +74,15 @@ class UserController extends Controller
             'level' => $req->input('level')
         ];
 
-            return response()->json($data);
-        
+        return response()->json($data);
     }
     public function deleteuser($id)
     {
         $delete = User::where('id', $id)->delete();
-        return response('Sukses delete user');
+        if ($delete) {
+            return response()->json(['msg' => 'Success delete user']);
+        }
+        return response()->json(['msg' => 'Failed delete user'], 500);
     }
 
     // public function tes(Request $req)

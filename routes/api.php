@@ -32,15 +32,19 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::group(['middleware' => ['jwt.verify']], function () {
 
     Route::group(['middleware' => ['api.admin']], function () {
-        Route::get('/getuser', [UserController::class, 'getuser']);
 
+        // Admin-Feedback
         Route::get('/getFeedback', [TransaksiController::class, 'getFeedback']);
         Route::get('/selectFeedback/{id}', [TransaksiController::class, 'selectFeedback']);
         Route::get('/countFeedback', [TransaksiController::class, 'countFeedback']);
 
+        // Admin-User
+        Route::get('/getuser', [UserController::class, 'getuser']);
         Route::post('/createuser', [UserController::class, 'createuser']);
         Route::get('/getuser/{id}', [UserController::class, 'getsatuuser']);
         Route::post('/updateuser/{id}', [UserController::class, 'updateuser']);
+        Route::delete('/deleteuser/{id}', [UserController::class, 'deleteuser']);
+
     });
 
     Route::group(['middleware' => ['api.resepsionis']], function () {
@@ -51,8 +55,6 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
 //USER
 Route::post('/feedback', [TransaksiController::class, 'feedback']);
-
-Route::delete('/deleteuser/{id}', [UserController::class, 'deleteuser']);
 
 //KAMAR
 Route::get('/getkamar', [KamarController::class, 'getkamar']);
