@@ -39,11 +39,11 @@ Route::group(['middleware' => ['jwt.verify']], function () {
         Route::get('/countFeedback', [TransaksiController::class, 'countFeedback']);
 
         // Admin-User
-        Route::get('/getuser', [UserController::class, 'getuser']);
-        Route::post('/createuser', [UserController::class, 'createuser']);
-        Route::get('/getuser/{id}', [UserController::class, 'getsatuuser']);
-        Route::post('/updateuser/{id}', [UserController::class, 'updateuser']);
-        Route::delete('/deleteuser/{id}', [UserController::class, 'deleteuser']);
+        Route::get('/getUser', [UserController::class, 'getuser']);
+        Route::post('/createUser', [UserController::class, 'createuser']);
+        Route::get('/getUser/{id}', [UserController::class, 'getsatuuser']);
+        Route::post('/updateUser/{id}', [UserController::class, 'updateuser']);
+        Route::delete('/deleteUser/{id}', [UserController::class, 'deleteuser']);
 
     });
 
