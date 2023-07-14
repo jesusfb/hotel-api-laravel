@@ -27,7 +27,7 @@ class JwtMiddleware
             } else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
                 return response()->json(['status' => 'Token is Expired']);
             } else {
-                return response()->json(['status' => 'Anda belum login']);
+                return response()->json(['status' => 'Anda belum login'], 401);
             }
         }
         return $next($request);
