@@ -46,6 +46,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
         Route::delete('/deleteUser/{id}', [UserController::class, 'deleteuser']);
 
         // Admin-Room
+        Route::post('/uploadFoto/{id}', [KamarController::class, 'uploadFoto']);
         Route::post('/createkamar', [KamarController::class, 'createkamar']);
         Route::put('/updatekamar/{id}', [KamarController::class, 'updatekamar']);
         Route::delete('/deletekamar/{id}', [KamarController::class, 'deletekamar']);
@@ -65,8 +66,6 @@ Route::get('/getkamar', [KamarController::class, 'getkamar']);
 Route::get('/filterKamar/{person}', [KamarController::class, 'filterKamar']);
 Route::get('/getkamar/{id}', [KamarController::class, 'kamarbyid']);
 
-
-Route::post('/uploadFoto/{id}', [KamarController::class, 'uploadFoto']);
 //TRANSAKSI
 Route::get('/gettransaksi', [TransaksiController::class, 'gettransaksi']);
 Route::get('/cekbooking/{id}', [TransaksiController::class, 'cekbooking']);

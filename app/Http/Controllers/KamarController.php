@@ -19,7 +19,7 @@ class KamarController extends Controller
 
     public function getkamar()
     {
-        $getkamar = kamar::get();
+        $getkamar = kamar::orderBy('id_kamar','desc')->get();
         return response()->json($getkamar);
     }
     public function kamarbyid($id)
@@ -42,7 +42,7 @@ class KamarController extends Controller
             'foto' => $req->input('foto'),
             'harga' => $req->input('harga'),
             'total_pesan' => 0,
-
+            'status_kamar' => 'kosong'
         ]);
 
 
