@@ -327,6 +327,8 @@ class TransaksiController extends Controller
         $send = DB::table('feedback')->insert([
             'id_transaksi' => $req->input('id_transaksi'),
             'isi' => $req->input('isi'),
+            'email' => $req->input('email'),
+            'tgl' => Carbon::now(),
             'review' => $req->input('review'),
             'nama_tamu' => $nama
         ]);
