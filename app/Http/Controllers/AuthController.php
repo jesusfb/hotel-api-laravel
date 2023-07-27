@@ -25,8 +25,9 @@ class AuthController extends Controller
         $user = JWTAuth::User();
         $level = $user->level;
         $id = $user->id;
+        $nama = $user->name;
 
-        return response()->json(compact('token','level','id'));
+        return response()->json(compact('token','level','id','nama'));
     }
 
     public function register(Request $request)
