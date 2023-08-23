@@ -8,10 +8,34 @@ use Illuminate\Support\Facades\DB;
 
 class noKamarController extends Controller
 {
+    function getAllKamar()
+    {
+        $get = noKamar::orderBy('no_kamar','asc')->get();
+        return response()->json($get);
+    }
+
     function getKamar()
     {
-        $get = noKamar::where('status','kosong')->get();
+        $get = noKamar::where('status', 'kosong')->get();
         return response()->json($get);
+    }
+
+    function addNumber(Request $req)
+    {
+        $add = noKamar::create([
+            'id_transaksi' => 'null',
+            'lantai' => $req->lantai,
+            'no_kamar' => $req->no_kamar,
+            'status' => 'kosong',
+        ]);
+
+        if($add){
+            return response()->json([
+                'msg' => 'Berhasil Menambah Nomor',
+                'result' => $add,
+            ], 200);
+        }
+        return response()->json(['msg' => 'Gagal Menambah kamar']);
     }
 
     function chooseKamar(Request $req, $noKamar)

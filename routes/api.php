@@ -70,7 +70,9 @@ Route::get('/getkamar', [KamarController::class, 'getkamar']);
 Route::get('/filterKamar/{person}', [KamarController::class, 'filterKamar']);
 Route::get('/getkamar/{id}', [KamarController::class, 'kamarbyid']);
 
+Route::get('/getAllNoKamar', [noKamarController::class, 'getAllKamar']);
 Route::get('/getNoKamar', [noKamarController::class, 'getKamar']);
+Route::post('/addNumber', [noKamarController::class, 'addNumber']);
 Route::put('/chooseRoom/{noKamar}', [noKamarController::class, 'chooseKamar']);
 
 //TRANSAKSI

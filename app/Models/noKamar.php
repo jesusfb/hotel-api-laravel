@@ -13,7 +13,8 @@ class noKamar extends Model
     protected $fillable = [
         'id_transaksi',
         'no_kamar',
-        'status'
+        'status',
+        'lantai',
     ];
 
     public $timestamps = false;
