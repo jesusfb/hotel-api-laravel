@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\KamarController;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\noKamarController;
 // use App\Http\Controllers\AuthController;
 
 /*
@@ -22,6 +23,9 @@ use App\Http\Controllers\TransaksiController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Buat tes Api ini
+// Buat tes Api ini
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
@@ -65,6 +69,9 @@ Route::post('/feedback', [TransaksiController::class, 'feedback']);
 Route::get('/getkamar', [KamarController::class, 'getkamar']);
 Route::get('/filterKamar/{person}', [KamarController::class, 'filterKamar']);
 Route::get('/getkamar/{id}', [KamarController::class, 'kamarbyid']);
+
+Route::get('/getNoKamar', [noKamarController::class, 'getKamar']);
+Route::put('/chooseRoom/{noKamar}', [noKamarController::class, 'chooseKamar']);
 
 //TRANSAKSI
 Route::get('/gettransaksi', [TransaksiController::class, 'gettransaksi']);

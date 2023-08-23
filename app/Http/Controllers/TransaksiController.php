@@ -237,24 +237,17 @@ class TransaksiController extends Controller
     }
     public function checkin(Request $req, $id)
     {
-        $validator = Validator::make($req->all(), [
-            'no_kamar' => 'required'
-        ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->tojson());
-        }
+        // $roomCheck = transaksi::where('no_kamar', $req->input('no_kamar'))
+        //     ->whereIn('status', ['dipesan', 'dikonfirmasi', 'dipakai'])
+        //     ->count('no_kamar');
 
-        $roomCheck = transaksi::where('no_kamar', $req->input('no_kamar'))
-            ->whereIn('status', ['dipesan', 'dikonfirmasi', 'dipakai'])
-            ->count('no_kamar');
-
-        if ($roomCheck >= 1) {
-            return response()->json(['msg' => 'The room is already in use!'], 422);
-        }
+        // if ($roomCheck >= 1) {
+        //     return response()->json(['msg' => 'The room is already in use!'], 422);
+        // }
 
         $update = transaksi::where('id_transaksi', $id)->update([
-            'no_kamar' => $req->input('no_kamar'),
+            'no_kamar' => 0,
             'status' => 'dipakai'
         ]);
 
@@ -267,6 +260,11 @@ class TransaksiController extends Controller
     {
         $checkout = transaksi::where('id_transaksi', $id)->update([
             'status' => 'selesai'
+        ]);
+
+        $roomUpdate = DB::table('no_kamar')->where('id_transaksi', $id)->update([
+            'id_transaksi' => '0',
+            'status' => 'kosong'
         ]);
 
         $kamar = kamar::where('id_kamar', $id_kamar)->update([
