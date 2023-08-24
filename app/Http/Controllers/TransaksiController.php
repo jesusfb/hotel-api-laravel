@@ -93,7 +93,7 @@ class TransaksiController extends Controller
     }
     public function history()
     {
-        $history = transaksi::where('status', 'selesai')->orderBy('id_transaksi', 'desc')->get();
+        $history = transaksi::where('status', 'selesai')->orderBy('id_primary_transaksi', 'desc')->get();
         if ($history->isEmpty()) {
             return response()->json(['msg' => 'Data is empty'], 404);
         }
