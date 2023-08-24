@@ -72,8 +72,11 @@ Route::get('/getkamar/{id}', [KamarController::class, 'kamarbyid']);
 
 Route::get('/getAllNoKamar', [noKamarController::class, 'getAllKamar']);
 Route::get('/getNoKamar', [noKamarController::class, 'getKamar']);
+Route::get('/selectKamar/{id}', [noKamarController::class, 'selectKamar']);
 Route::post('/addNumber', [noKamarController::class, 'addNumber']);
+Route::put('/updateKamar/{id}', [noKamarController::class, 'updateKamar']);
 Route::put('/chooseRoom/{noKamar}', [noKamarController::class, 'chooseKamar']);
+Route::delete('/deleteRoom/{id}', [noKamarController::class, 'deleteKamar']);   
 
 //TRANSAKSI
 Route::get('/gettransaksi', [TransaksiController::class, 'gettransaksi']);

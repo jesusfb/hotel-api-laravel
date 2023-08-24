@@ -10,7 +10,13 @@ class noKamarController extends Controller
 {
     function getAllKamar()
     {
-        $get = noKamar::orderBy('no_kamar','asc')->get();
+        $get = noKamar::orderBy('no_kamar', 'asc')->get();
+        return response()->json($get);
+    }
+
+    function selectKamar($id)
+    {
+        $get = noKamar::where('id_no_kamar', $id)->get();
         return response()->json($get);
     }
 
@@ -29,7 +35,7 @@ class noKamarController extends Controller
             'status' => 'kosong',
         ]);
 
-        if($add){
+        if ($add) {
             return response()->json([
                 'msg' => 'Berhasil Menambah Nomor',
                 'result' => $add,
@@ -54,5 +60,28 @@ class noKamarController extends Controller
             return response()->json(['msg' => 'Berhasil memilih kamar', 'result' => 'dipakai', 'tes aja' => $req->id_transaksi], 200);
         }
         return response()->json(['msg' => 'Ada yang error coba cek dulu'], 500);
+    }
+
+    function updateKamar(Request $req, $id)
+    {
+        $update = noKamar::where('id_no_kamar', $id)->update([
+            'no_kamar' => $req->no_kamar,
+            'lantai' => $req->lantai,
+            'status' => $req->status
+        ]);
+
+        if ($update) {
+            return response()->json([$update], 200);
+        }
+        return response()->json(['msg' => 'Gagal Update Kamar'], 500);
+    }
+
+    function deleteKamar($id)
+    {
+        $delete = noKamar::where('id_no_kamar', $id)->delete();
+        if ($delete) {
+            return response()->json(['msg' => 'Berhasil Hapus Kamar'], 200);
+        }
+        return response()->json(['msg' => 'Gagal hapus kamar'], 500);
     }
 }
