@@ -12,17 +12,23 @@ use Illuminate\Queue\SerializesModels;
 class FeedbackMail extends Mailable
 {
     use Queueable, SerializesModels;
+    public $id_transaksi;
+    public $balasan;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct( $id_transaksi,$balasan)
     {
-        //
+        $this -> id_transaksi = $id_transaksi;
+        $this -> balasan = $balasan;
     }
 
+    function build() {
+        return $this -> view('send_feedback') -> subject('Send Feedback');
+    }
     /**
      * Get the message envelope.
      *
@@ -43,7 +49,7 @@ class FeedbackMail extends Mailable
     public function content()
     {
         return new Content(
-            view: 'view.name',
+            view: 'feedback_mail',
         );
     }
 

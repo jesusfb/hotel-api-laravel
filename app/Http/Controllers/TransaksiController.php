@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EmailNotification;
 use App\Mail\emailConfirmation;
+use App\Mail\FeedbackMail;
 
 class TransaksiController extends Controller
 {
@@ -348,8 +349,8 @@ class TransaksiController extends Controller
 
     public function selectFeedback($id)
     {
-        $get = DB::table('transaksis')
-            ->where('id_transaksi', $id)
+        $get = DB::table('feedback')
+            ->where('id_feedback', $id)
             ->get();
 
         return response()->json($get);
@@ -358,5 +359,19 @@ class TransaksiController extends Controller
     {
         $count = DB::table('feedback')->count('id_feedback');
         return response()->json($count);
+    }
+
+    function sendFeedbackToUser(Request $req)
+    {
+        $id_transaksi = $req->id_transaksi;
+        $balasan = $req->balasan;
+
+        $sendMail = new FeedbackMail($id_transaksi, $balasan);
+        Mail::to($req->email)->send($sendMail);
+
+        if ($sendMail) {
+            return response()->json(['msg' => 'Berhasil Mengirim Email'], 200);
+        }
+        return response()->json(['msg' => 'Gagal mengirim email'], 500);
     }
 }

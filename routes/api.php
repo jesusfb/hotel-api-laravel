@@ -41,6 +41,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
         Route::get('/getFeedback', [TransaksiController::class, 'getFeedback']);
         Route::get('/selectFeedback/{id}', [TransaksiController::class, 'selectFeedback']);
         Route::get('/countFeedback', [TransaksiController::class, 'countFeedback']);
+        Route::post('/sendFeedbackToUser', [TransaksiController::class, 'sendFeedbackToUser']);
 
         // Admin-User
         Route::get('/getUser', [UserController::class, 'getuser']);
@@ -76,7 +77,7 @@ Route::get('/selectKamar/{id}', [noKamarController::class, 'selectKamar']);
 Route::post('/addNumber', [noKamarController::class, 'addNumber']);
 Route::put('/updateKamar/{id}', [noKamarController::class, 'updateKamar']);
 Route::put('/chooseRoom/{noKamar}', [noKamarController::class, 'chooseKamar']);
-Route::delete('/deleteRoom/{id}', [noKamarController::class, 'deleteKamar']);   
+Route::delete('/deleteRoom/{id}', [noKamarController::class, 'deleteKamar']);
 
 //TRANSAKSI
 Route::get('/gettransaksi', [TransaksiController::class, 'gettransaksi']);

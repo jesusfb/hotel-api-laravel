@@ -46,13 +46,9 @@
 
 <body>
     <h1>Wikusama Hotel</h1>
-    <h1>Halo {{ $nama_tamu }}</h1>
-    <h5>Berikut adalah detail dari pesanan Anda:</h5>
-    <p>Kode pesanan Anda: {{ $id_transaksi }}</p>
-    <p>Tanggal Check-in: {{ $tanggal_checkin }}</p>
-    <p>Tanggal Check-out: {{ $tanggal_checkout }}</p>
-    <p>Jumlah Kamar: {{ $jumlah_kamar }}</p>
-    <p>Total Harga: {{ $harga }}</p>
+    <h3>Id Transaksi: {{ $id_transaksi }}, </h3>
+    <h3>Balasan untuk feedback kamu</h3>
+    <h4>{{ $balasan}}</h4>
 </body>
 
 </html>
