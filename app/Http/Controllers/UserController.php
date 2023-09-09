@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 // use App\Models\transaksi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 // use PDO;
@@ -92,4 +93,10 @@ class UserController extends Controller
     //     $total = $jumlah * $harga;
     //     return response()->json(['Total harga' => $total]);
     // }
+
+    function userHistory($id)
+    {
+        $get = DB::table('transaksis')->where('email', $id)->orderBy('id_primary_transaksi', 'desc')->get();
+        return response()->json($get);
+    }
 }

@@ -65,6 +65,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
 //USER
 Route::post('/feedback', [TransaksiController::class, 'feedback']);
+Route::get('/user/history/{id}',[UserController::class, 'userHistory']);
 
 //KAMAR
 Route::get('/getkamar', [KamarController::class, 'getkamar']);
