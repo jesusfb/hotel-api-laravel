@@ -1,8 +1,8 @@
 FROM php:8.2.6-fpm-alpine
 
-RUN docker-php-ext-install pdo pdo_mysql sockets
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
+RUN docker-php-ext-install pdo pdo_mysql
+# for mysqli if you want
+RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
