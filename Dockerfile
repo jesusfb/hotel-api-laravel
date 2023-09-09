@@ -69,5 +69,7 @@ RUN composer install --optimize-autoloader --no-progress --no-interaction
 
 RUN chmod +x /var/www/.docker/run.sh
 
+RUN  o+w /var/www/storage -R .
+
 EXPOSE 80/tcp
 ENTRYPOINT ["/var/www/.docker/run.sh"]
